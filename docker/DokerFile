@@ -1,0 +1,1 @@
+FROM naqoda/centos-apache-php:php71

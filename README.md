@@ -22,6 +22,12 @@ If you are running locally, make sure to initialize swarm
 
 *docker swarm init*
 
-Then,
+Then use the docker-compose.yml in the root folder to deploy the application image:
 
 *docker stack deploy -c docker-compose.yml april-service*
+
+# Get to Application:
+
+Application will be running on 80 and 443 of the Host you are running on, Ports can changed in the docker-compose.yml.
+
+https://localhost

@@ -12,11 +12,11 @@
 
 # Deploy:
 
-- Single container:
+Single container:
 
 *docker run --name april-app -p 80:80 -p 443:443 -d april:\<Version\>*
 
-- Docker Stack in Swarm mode:
+Docker Stack in Swarm mode:
 
 If you are running locally, make sure to initialize swarm 
 

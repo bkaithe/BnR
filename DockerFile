@@ -41,7 +41,7 @@ RUN sed -i \
 	-e 's~^ServerSignature On$~ServerSignature Off~g' \
 	-e 's~^ServerTokens OS$~ServerTokens Prod~g' \
 	-e 's~^DirectoryIndex \(.*\)$~DirectoryIndex \1 index.php~g' \
-	-e 's~^Group apache$~Group app~g' \
+	-e 's~^Group apache$~Group april~g' \
 	-e 's~^IndexOptions \(.*\)$~#IndexOptions \1~g' \
 	-e 's~^IndexIgnore \(.*\)$~#IndexIgnore \1~g' \
 	-e 's~^AddIconByEncoding \(.*\)$~#AddIconByEncoding \1~g' \
@@ -109,10 +109,14 @@ RUN useradd -u ${uid} -d /var/www/april -m -g ${gid} april \
 RUN ln -s /var/www/april /home/april \
 	&& mkdir -p /var/www/april/{public_html,var/{log,session}}
 
-ADD 001-april.conf 001-april.nohttp.conf /etc/httpd/conf.d/
-
-ADD *.php css images js  /var/www/app/public_html/
-
+# -----------------------------------------------------------------------------
+# Copy files into place
+# -----------------------------------------------------------------------------
+COPY 001-april.nohttp.conf /etc/httpd/conf.d/
+COPY *.php  /var/www/april/public_html/
+COPY css  /var/www/april/public_html/css/
+COPY js  /var/www/april/public_html/js/
+COPY images  /var/www/april/public_html/images/
 # -----------------------------------------------------------------------------
 # Set permissions
 # -----------------------------------------------------------------------------
@@ -133,6 +137,7 @@ ENV	SERVICE_UNIT_INSTANCE 1
 # -----------------------------------------------------------------------------
 ENV APACHE_SERVER_ALIAS ""
 ENV	APACHE_SERVER_NAME april-1.local
+ENV APACHE_SERVER_ADMIN bhanukirankaithe@gmail.com
 ENV	APP_HOME_DIR /var/www/april
 ENV	DATE_TIMEZONE UTC
 ENV	HTTPD /usr/sbin/httpd
@@ -150,6 +155,6 @@ ENV LANG en_GB.UTF-8
 # -----------------------------------------------------------------------------
 # Set ports
 # -----------------------------------------------------------------------------
-EXPOSE 80 443
+EXPOSE 80
 
 CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
